@@ -1,0 +1,8 @@
+num_drawings: 1000
+distribution:
+  initial_population: 5
+  multiplier: 2
+max_priorities: 63
+drawing_config:
+  constant: 5
+  multiplier: 2
