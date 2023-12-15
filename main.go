@@ -34,11 +34,11 @@ type simulationConfig struct {
 	} `yaml:"drawing_config"`
 }
 
-type lotteryParticipant struct {
+type participant struct {
 	Id       uuid.UUID
 	Priority int
 }
 
-func generateLottery() (lottery, error) {
-	
+func generateLottery() (lottery[participant], error) {
+	return lottery[participant]{}, nil
 }
