@@ -39,6 +39,6 @@ type participant struct {
 	Priority int
 }
 
-func generateLottery() (lottery[participant], error) {
+func generateLottery(config simulationConfig) (lottery[participant], error) {
 	return lottery[participant]{}, nil
 }
