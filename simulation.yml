@@ -1,8 +1,8 @@
 num_drawings: 1000
+max_priorities: 64
 distribution:
-  initial_population: 5
-  multiplier: 2
-max_priorities: 63
+  initial_population: 10
+  multiplier: 1
 drawing_config:
-  constant: 5
+  constant: 7
   multiplier: 2

@@ -1,15 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
-	"github.com/google/uuid"
 	"gopkg.in/yaml.v3"
 )
 
 func main() {
-	data, err := os.ReadFile("output.yaml")
+	data, err := os.ReadFile("simulation.yml")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -19,26 +19,28 @@ func main() {
 		log.Fatal(err)
 	}
 
-}
+	lot := generateLottery(config)
 
-type simulationConfig struct {
-	NumDrawings  int `yaml:"num_drawings"`
-	Distribution struct {
-		InitialPopulation int `yaml:"initial_population"`
-		Multiplier        int `yaml:"multiplier"`
-	} `yaml:"distribution"`
-	MaxPriorities int `yaml:"max_priorities"`
-	DrawingConfig struct {
-		Constant   int `yaml:"constant"`
-		Multiplier int `yaml:"multiplier"`
-	} `yaml:"drawing_config"`
-}
+	winningDistribution := make(map[int]int)
 
-type participant struct {
-	Id       uuid.UUID
-	Priority int
-}
+	for i := 0; i < config.NumDrawings; i++ {
+		if item, won := lot.draw(); won {
+			winningDistribution[item.Priority]++
+		}
+	}
 
-func generateLottery(config simulationConfig) (lottery[participant], error) {
-	return lottery[participant]{}, nil
+	lotteryResults := make([]int, 0, config.MaxPriorities)
+	for i := 0; i < config.MaxPriorities; i++ {
+		res, ok := winningDistribution[i]
+		if !ok {
+			res = 0
+		}
+		lotteryResults = append(lotteryResults, res)
+	}
+
+	fmt.Println("wins by priority:")
+	for priority, count := range lotteryResults {
+		population := len(lot.MultilevelFeedbackQueue[priority].Queue)
+		fmt.Printf("%d (pop: %d):\t%d\n", priority, population, count)
+	}
 }

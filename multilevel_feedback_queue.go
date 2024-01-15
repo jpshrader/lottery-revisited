@@ -5,22 +5,21 @@ import (
 	"math/rand"
 )
 
-type multilevelFeedbackQueue[T any] []level[T]
+type multilevelFeedbackQueue []level
 
-type level[T any] struct {
-	Priorty int
-	Queue   []T
+type level struct {
+	Queue []participant
 }
 
-func (l level[T]) draw(constant float64, multiplier float64) (*T, bool) {
+func (l level) draw(constant float64, multiplier float64) (*participant, bool) {
 	for _, item := range l.Queue {
-		if float64(rand.Intn(1000)) <= l.getLikelihood(constant, multiplier) {
+		if float64(rand.Intn(1000)) <= l.getLikelihood(item.Priority, constant, multiplier) {
 			return &item, true
 		}
 	}
 	return nil, false
 }
 
-func (l level[T]) getLikelihood(constant float64, multiplier float64) float64 {
-	return float64(l.Priorty) + math.Log2(constant*multiplier)
+func (l level) getLikelihood(priority int, constant float64, multiplier float64) float64 {
+	return constant + math.Log2(float64(priority+1)*multiplier)
 }
