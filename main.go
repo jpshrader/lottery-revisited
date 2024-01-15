@@ -21,8 +21,7 @@ func main() {
 
 	lot := generateLottery(config)
 
-	winningDistribution := make(map[int]int)
-
+	winningDistribution := make(map[int]int, config.MaxPriorities)
 	for i := 0; i < config.NumDrawings; i++ {
 		if item, won := lot.draw(); won {
 			winningDistribution[item.Priority]++
