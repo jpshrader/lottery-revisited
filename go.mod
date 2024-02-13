@@ -1,8 +1,8 @@
 module github.com/jpshrader/lottery-revisited
 
-go 1.21.6
+go 1.22
 
 require (
-	github.com/google/uuid v1.5.0
+	github.com/google/uuid v1.6.0
 	gopkg.in/yaml.v3 v3.0.1
 )
